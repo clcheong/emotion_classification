@@ -6,6 +6,8 @@ import pickle
 import random
 from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
+from sklearn.impute import SimpleImputer
+
 
 
 
@@ -35,12 +37,19 @@ print('Start Splitting Data into 70% Training, and 30% Testing')
 xtrain, xtest, ytrain, ytest = train_test_split(features, labels, test_size = 0.3)
 print('Obtained xtrain, xtest, ytrain, and ytest')
 
+print('Imputing NaN values with mean')
+# Impute NaN values with the mean
+imputer = SimpleImputer(strategy='mean')
+xtrain_imputed = imputer.fit_transform(xtrain)
+xtest_imputed = imputer.transform(xtest)
+print('Completed Imputing NaN Values with mean')
+
 print("Creating SVC Model")
 model = SVC(C=1,kernel='rbf',gamma='auto')
 print("SVC Model Created")
 
 print("Start Fitting Model using xtrain and ytrain")
-model.fit(xtrain, ytrain)
+model.fit(xtrain_imputed, ytrain)
 print('Model Fitting Completed')
 
 print('Start Saving Model into model.sav File')

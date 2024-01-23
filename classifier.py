@@ -7,6 +7,8 @@ import random
 from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
 from sklearn.metrics import classification_report, confusion_matrix
+from sklearn.impute import SimpleImputer
+
 
 # !!! STEP 3: Test Trained Model (.sav file) - This will take 10-15 minutes
 print('Reading data1.pickle')
@@ -34,6 +36,13 @@ print('Splitting data')
 xtrain, xtest, ytrain, ytest = train_test_split(features, labels, test_size = 0.3)
 print('Data split successfully')
 
+print('Imputing NaN values with mean')
+# Impute NaN values with the mean
+imputer = SimpleImputer(strategy='mean')
+xtrain_imputed = imputer.fit_transform(xtrain)
+xtest_imputed = imputer.transform(xtest)
+print('Completed Imputing NaN Values with mean')
+
 print('Loading Model')
 pick = open('model.sav', 'rb')
 model = pickle.load(pick)
@@ -41,9 +50,9 @@ pick.close()
 print('Model loaded successfully')
 
 print('Start Prediction')
-prediction = model.predict(xtest)
+prediction = model.predict(xtest_imputed)
 
-accuracy = model.score(xtest,ytest)
+accuracy = model.score(xtest_imputed,ytest)
 
 categories = ['angry', 'disgust', 'fear', 'happy', 'neutral', 'sad', 'surprise']
 
@@ -71,9 +80,9 @@ plt.show()
 
 
 
-print('Prediction is: ', categories[prediction[0]])
+# print('Prediction is: ', categories[prediction[0]])
 
-emotionPic = xtest[0].reshape(48,48)
+# emotionPic = xtest[0].reshape(48,48)
 
-plt.imshow(emotionPic, cmap='gray')
-plt.show()
+# plt.imshow(emotionPic, cmap='gray')
+# plt.show()
