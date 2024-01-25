@@ -3,6 +3,27 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import os
+import dlib
+
+def save_and_close_plot(save_path, file_name, format='png'):
+    """
+    Save the current matplotlib plot and close the figure.
+
+    Parameters:
+    - save_path (str): The directory where the image will be saved.
+    - file_name (str): The name of the saved image file (without extension).
+    - format (str): The format of the saved image (default is 'png').
+    """
+    # Create the save directory if it doesn't exist
+    os.makedirs(save_path, exist_ok=True)
+
+    # Save the current plot
+    file_path = os.path.join(save_path, f"{file_name}.{format}")
+    plt.savefig(file_path, format=format)
+
+    # Close the current figure
+    plt.close()
+
 
 def extract_pixel_intensities(image_path, roi_coords):
     image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
@@ -123,6 +144,9 @@ image_paths = [os.path.join(image_folder, img) for img in os.listdir(image_folde
 
 # Perform intensity analysis for each facial image and each ROI
 for image_path in image_paths:
+    
+    print('Analyzing Image: %s' % image_path)
+    
     # Detect facial features
     all_roi_coords = detect_features(image_path)
 
