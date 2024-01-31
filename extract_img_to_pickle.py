@@ -12,16 +12,29 @@ import pywt
 
 
 def extract_features(image_path):
-    img = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)  # Read the image in grayscale
-    coeffs2 = pywt.dwt2(img, 'haar')  # Perform 2D Discrete Wavelet Transform
-    LL, (LH, HL, HH) = coeffs2  # Decompose the coefficients
+    img = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+    coeffs2 = pywt.dwt2(img, 'haar')
+    LL, (LH, HL, HH) = coeffs2
 
-    # You can further process these coefficients or use them directly as features.
-    # For example, you can calculate statistics like mean, variance, etc. for each sub-band.
+    # Function to calculate the statistical features for a sub-band
+    def calc_stats(sub_band):
+        sub_band = np.array(sub_band)
+        mean = np.mean(sub_band)
+        std = np.std(sub_band)
+        median = np.median(sub_band)
+        energy = np.sum(np.square(sub_band))
+        skewness = skew(sub_band.flatten())
+        kurt = kurtosis(sub_band.flatten())
+        return [mean, std, median, energy, skewness, kurt]
 
-    # Flatten the coefficients and create a feature vector
-    features = np.hstack([np.array(LL).flatten(), np.array(LH).flatten(), 
-                          np.array(HL).flatten(), np.array(HH).flatten()])
+    # Calculate features for each sub-band
+    features_LL = calc_stats(LL)
+    features_LH = calc_stats(LH)
+    features_HL = calc_stats(HL)
+    features_HH = calc_stats(HH)
+
+    # Flatten and concatenate all features into a single vector
+    features = features_LL + features_LH + features_HL + features_HH
 
     return features
 

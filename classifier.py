@@ -36,12 +36,12 @@ print('Splitting data')
 xtrain, xtest, ytrain, ytest = train_test_split(features, labels, test_size = 0.3)
 print('Data split successfully')
 
-# print('Imputing NaN values with mean')
-# # Impute NaN values with the mean
-# imputer = SimpleImputer(strategy='mean')
-# xtrain_imputed = imputer.fit_transform(xtrain)
-# xtest_imputed = imputer.transform(xtest)
-# print('Completed Imputing NaN Values with mean')
+print('Imputing NaN values with mean')
+# Impute NaN values with the mean
+imputer = SimpleImputer(strategy='mean')
+xtrain_imputed = imputer.fit_transform(xtrain)
+xtest_imputed = imputer.transform(xtest)
+print('Completed Imputing NaN Values with mean')
 
 print('Loading Model')
 pick = open('model.sav', 'rb')
@@ -50,9 +50,11 @@ pick.close()
 print('Model loaded successfully')
 
 print('Start Prediction')
-prediction = model.predict(xtest)
+# prediction = model.predict(xtest)
+prediction = model.predict(xtest_imputed)
 
-accuracy = model.score(xtest,ytest)
+# accuracy = model.score(xtest,ytest)
+accuracy = model.score(xtest_imputed,ytest)
 
 categories = ['angry', 'disgust', 'fear', 'happy', 'neutral', 'sad', 'surprise']
 
