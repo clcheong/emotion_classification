@@ -7,60 +7,23 @@ import random
 from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
 from scipy.stats import kurtosis, skew
+import pywt
 
 
 
 def extract_features(image_path):
-    img = cv2.imread(image_path)
-    # img = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+    img = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)  # Read the image in grayscale
+    coeffs2 = pywt.dwt2(img, 'haar')  # Perform 2D Discrete Wavelet Transform
+    LL, (LH, HL, HH) = coeffs2  # Decompose the coefficients
 
-    # Median
-    median_intensity = np.median(img)
+    # You can further process these coefficients or use them directly as features.
+    # For example, you can calculate statistics like mean, variance, etc. for each sub-band.
 
-    # Standard Deviation
-    std_dev_intensity = np.std(img)
+    # Flatten the coefficients and create a feature vector
+    features = np.hstack([np.array(LL).flatten(), np.array(LH).flatten(), 
+                          np.array(HL).flatten(), np.array(HH).flatten()])
 
-    # Mean Absolute Deviation (MAD)
-    # mad_intensity = np.mean(np.abs(img - np.mean(img)))
-
-    # Median Absolute Deviation (MAD)
-    # mad_median_intensity = np.median(np.abs(img - np.median(img)))
-
-    # Kurtosis
-    kurtosis_intensity = kurtosis(img.flatten())
-
-    # Skewness
-    skewness_intensity = skew(img.flatten())
-
-    # Moment (let's consider the 3rd moment - skewness again)
-    # moment_intensity = np.mean(np.power((img - np.mean(img)), 3))
-
-    # Variance
-    # variance_intensity = np.var(img)
-
-    # Mean
-    mean_intensity = np.mean(img)
-
-    # Covariance (using the same variable for illustration)
-    covariance_intensity = np.cov(img.flatten(), img.flatten())[0, 1]
-
-    # Energy
-    energy_intensity = np.sum(np.square(img))
-
-    return [
-        median_intensity,
-        std_dev_intensity,
-        # mad_intensity,
-        # mad_median_intensity,
-        kurtosis_intensity,
-        skewness_intensity,
-        # moment_intensity,
-        # variance_intensity,
-        mean_intensity,
-        covariance_intensity,
-        energy_intensity
-    ]
-
+    return features
 
 
 # !!! STEP 1: Extract Image Data into Pickle Format

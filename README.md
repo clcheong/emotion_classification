@@ -17,6 +17,7 @@ Libraries to install:<br>
 ~ pip install opencv-python <br>
 ~ pip install matplotlib <br>
 ~ pip install scikit-learn<br>
+~ pip install PyWavelets<br>
 <br>
 <br>
 To Run the App:<br>
