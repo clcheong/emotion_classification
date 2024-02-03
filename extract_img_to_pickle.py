@@ -39,28 +39,9 @@ def extract_features(image_path):
     return features
 
 
-def contains_any_substring(main_string, substrings):
-    """
-    Check if the main_string contains any of the substrings.
-
-    Parameters:
-    - main_string (str): The string to search within.
-    - substrings (list of str): A list of substrings to search for.
-
-    Returns:
-    - bool: True if any substring is found in main_string, False otherwise.
-    """
-    for substring in substrings:
-        if substring in main_string:
-            return True  # Return True as soon as any substring is found
-    return False  # Return False if no substrings are found
-
-
 # !!! STEP 1: Extract Image Data into Pickle Format
-dir = 'D:\\Side_Projects\\emotion_classification\\datasets\\task3_results'  # Modify this to the path where the training images are stored on your device.
+dir = 'D:\\Side_Projects\\emotion_classification\\datasets\\task8_results'  # Modify this to the path where the training images are stored on your device.
 categories = ['angry', 'disgust', 'fear', 'happy', 'neutral', 'sad', 'surprise']
-roi_folders = ['roi_eyebrow', 'roi_eyes', 'roi_mouth']
-roi_filenames = ['_eyebrows', '_eyes', '_mouth']
 data = []
 
 for category in categories:
@@ -70,27 +51,25 @@ for category in categories:
     for imgFolder in os.listdir(path):
         imgFolderPath = os.path.join(path, imgFolder)
         
-        for roiFolder in roi_folders:
+        for roiFolder in os.listdir(imgFolderPath):
             roiFolderPath = os.path.join(imgFolderPath, roiFolder)
                                 
 
             for img in os.listdir(roiFolderPath):
+                            
+                imgpath = os.path.join(roiFolderPath, img)
                 
-                if contains_any_substring(img, roi_filenames) :
-                
-                    imgpath = os.path.join(roiFolderPath, img)
+                try:
+                    print("Extracting Features for: ", imgpath)
                     
-                    try:
-                        print("Extracting Features for: ", imgpath)
-                        
-                        # Extract features using the function
-                        features = extract_features(imgpath)
+                    # Extract features using the function
+                    features = extract_features(imgpath)
 
-                        # Append features and label to the data list
-                        data.append([features, label])
+                    # Append features and label to the data list
+                    data.append([features, label])
 
-                    except Exception as e:
-                        pass
+                except Exception as e:
+                    pass
 
 # Save the data to a pickle file
 pick_in = open('data1.pickle', 'wb')
