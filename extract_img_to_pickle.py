@@ -42,6 +42,7 @@ def extract_features(image_path):
 # !!! STEP 1: Extract Image Data into Pickle Format
 dir = 'D:\\Side_Projects\\emotion_classification\\datasets\\task6_results'  # Modify this to the path where the training images are stored on your device.
 categories = ['angry', 'disgust', 'fear', 'happy', 'neutral', 'sad', 'surprise']
+target_roi = ['roi_mouth']  # Change this to target any ROI specifically.
 data = []
 
 for category in categories:
@@ -51,7 +52,7 @@ for category in categories:
     for imgFolder in os.listdir(path):
         imgFolderPath = os.path.join(path, imgFolder)
         
-        for roiFolder in os.listdir(imgFolderPath):
+        for roiFolder in target_roi:
             roiFolderPath = os.path.join(imgFolderPath, roiFolder)
     
             for img in os.listdir(roiFolderPath):
