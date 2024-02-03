@@ -46,8 +46,8 @@ def process_image(image_path, base_output_folder, emotion, target_size=(200, 200
         print(f"ROIs Processed and Saved for {base_name}")
 
 # Example usage
-input_folder = "D:\\Side_Projects\\emotion_classification\\datasets\\raw"
-output_folder = "D:\\Side_Projects\\emotion_classification\\datasets\\task6_results"
+input_folder = "D:\\Side_Projects\\emotion_classification\\datasets\\01_occluded"
+output_folder = "D:\\Side_Projects\\emotion_classification\\datasets\\task8_results"
 os.makedirs(output_folder, exist_ok=True)
 
 for emotion_folder in os.listdir(input_folder):
