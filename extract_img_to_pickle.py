@@ -59,7 +59,7 @@ def contains_any_substring(main_string, substrings):
 # !!! STEP 1: Extract Image Data into Pickle Format
 dir = 'D:\\Side_Projects\\emotion_classification\\datasets\\task3_results'  # Modify this to the path where the training images are stored on your device.
 categories = ['angry', 'disgust', 'fear', 'happy', 'neutral', 'sad', 'surprise']
-roi_folders = ['roi_eyebrow', 'roi_eyes', 'roi_mouth']
+roi_folders = ['roi_mouth']  # Target Specific ROI
 roi_filenames = ['_eyebrows', '_eyes', '_mouth']
 data = []
 
