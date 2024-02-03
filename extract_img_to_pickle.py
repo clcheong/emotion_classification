@@ -40,7 +40,7 @@ def extract_features(image_path):
 
 
 # !!! STEP 1: Extract Image Data into Pickle Format
-dir = 'D:\\Side_Projects\\emotion_classification\\datasets\\JAFFE'  # Modify this to the path where the training images are stored on your device.
+dir = 'D:\\Side_Projects\\emotion_classification\\datasets\\01_occluded'  # Modify this to the path where the training images are stored on your device.
 categories = ['angry', 'disgust', 'fear', 'happy', 'neutral', 'sad', 'surprise']
 data = []
 
