@@ -104,8 +104,12 @@ def detect_features(image_path):
     eyebrow_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_mcs_eyepair_small.xml')
     mouth_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_mcs_mouth.xml')
 
-    image = cv2.imread(image_path)
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    gray = cv2.imread(image_path)
+    # gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    
+    plt.imshow(gray, cmap='gray')
+    plt.title('Grayscale Image')
+    plt.show()
 
     faces = face_cascade.detectMultiScale(gray, scaleFactor=1.3, minNeighbors=5)
     
@@ -136,44 +140,50 @@ def detect_features(image_path):
     return all_roi_coords
 
 # Example Usage
-image_folder = 'D:\\Side_Projects\\emotion_classification\\datasets\\JAFFE\\angry'
+image_folder = 'D:\\Side_Projects\\emotion_classification\\datasets\\raw'
 emotions = ['angry', 'disgust', 'fear', 'happy', 'neutral', 'sad', 'surprise']  # Update with your emotions
 
 # Get list of image paths
-image_paths = [os.path.join(image_folder, img) for img in os.listdir(image_folder) if img.endswith('.tiff')]
+# image_paths = [os.path.join(image_folder, img) for img in os.listdir(image_folder) if img.endswith('.tiff')]
 
-# Perform intensity analysis for each facial image and each ROI
-for image_path in image_paths:
-    
-    print('Analyzing Image: %s' % image_path)
-    
-    # Detect facial features
-    all_roi_coords = detect_features(image_path)
+for emotion in emotions:
 
-    if all_roi_coords:
-        # Display facial image
-        image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
-        plt.figure(figsize=(5, 5))
-        plt.imshow(image, cmap='gray')
-        plt.title('Facial Image')
-        plt.show()
+    image_folder = os.path.join(image_folder, emotion)
 
-        # Display each ROI
-        for roi_coords in all_roi_coords:
-            roi = image[roi_coords[0]:roi_coords[1], roi_coords[2]:roi_coords[3]]
-            plt.figure(figsize=(5, 5))
-            plt.imshow(roi, cmap='gray')
-            plt.title('ROI')
+    # Perform intensity analysis for each facial image and each ROI
+    for image_path in os.listdir(image_folder):
+        
+        image_path = os.path.join(image_folder, image_path)
+        
+        print('Analyzing Image: %s' % image_path)
+        
+        # Detect facial features
+        all_roi_coords = detect_features(image_path)
+
+        if all_roi_coords:
+            # Display facial image
+            image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+            # plt.figure(figsize=(5, 5))
+            plt.imshow(image, cmap='gray')
+            plt.title('Facial Image')
             plt.show()
 
-            # Perform histogram intensity analysis
-            generate_histogram([image_path], roi_coords, emotions)
-            
-            # Display Mean Intensity Heatmap
-            generate_mean_intensity_heatmap(image_paths, roi_coords, emotions)
+            # Display each ROI
+            for roi_coords in all_roi_coords:
+                roi = image[roi_coords[0]:roi_coords[1], roi_coords[2]:roi_coords[3]]
+                # plt.figure(figsize=(5, 5))
+                plt.imshow(roi, cmap='gray')
+                plt.title('ROI')
+                plt.show()
 
-            # Display Boxplots
-            generate_boxplots(image_paths, roi_coords, emotions)
+                # Perform histogram intensity analysis
+                # generate_histogram([image_path], roi_coords, emotions)
+                
+                # # Display Mean Intensity Heatmap
+                # generate_mean_intensity_heatmap(image_paths, roi_coords, emotions)
 
-    else:
-        print(f"No facial features detected in {image_path}")
+                # # Display Boxplots
+                # generate_boxplots(image_paths, roi_coords, emotions)
+
+        else:
+            print(f"No facial features detected in {image_path}")

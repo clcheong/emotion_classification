@@ -64,7 +64,7 @@ def extract_features(image_path):
 
 
 # !!! STEP 1: Extract Image Data into Pickle Format
-dir = 'D:\\Side_Projects\\emotion_classification\\datasets\\raw'  # Modify this to the path where the training images are stored on your device.
+dir = 'D:\\Side_Projects\\emotion_classification\\datasets\\task6_results'  # Modify this to the path where the training images are stored on your device.
 categories = ['angry', 'disgust', 'fear', 'happy', 'neutral', 'sad', 'surprise']
 data = []
 
@@ -72,18 +72,27 @@ for category in categories:
     path = os.path.join(dir, category)
     label = categories.index(category)
     
-    for img in os.listdir(path):
-        imgpath = os.path.join(path, img)
+    for imgFolder in os.listdir(path):
         
-        try:
-            # Extract features using the function
-            features = extract_features(imgpath)
+        imgFolderPath = os.path.join(imgFolder, path)
+        
+        for roiFolder in os.listdir(imgFolderPath):
+            
+            roiFolderPath = os.path.join(roiFolder, imgFolderPath)
+    
+            for img in os.listdir(roiFolderPath):
+                
+                imgpath = os.path.join(roiFolderPath, img)
+                
+                try:
+                    # Extract features using the function
+                    features = extract_features(imgpath)
 
-            # Append features and label to the data list
-            data.append([features, label])
+                    # Append features and label to the data list
+                    data.append([features, label])
 
-        except Exception as e:
-            pass
+                except Exception as e:
+                    pass
 
 # Save the data to a pickle file
 pick_in = open('data1.pickle', 'wb')
