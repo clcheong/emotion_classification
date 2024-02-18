@@ -73,7 +73,7 @@ plt.show()
 
 print('Prediction is: ', categories[prediction[0]])
 
-emotionPic = xtest[0].reshape(48,48)
+emotionPic = xtest[0]
 
 plt.imshow(emotionPic, cmap='gray')
 plt.show()

@@ -8,7 +8,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
 
 # !!! STEP 1: Extract Image Data into Pickle Format
-dir = 'D:\\Side_Projects\\emotion_classification\\datasets\\raw'  # Modify this to the path where the training images are stored on your device.
+dir = 'D:\\Side_Projects\\emotion_classification\\datasets\\JAFFE'  # Modify this to the path where the training images are stored on your device.
 
 categories = ['angry', 'disgust', 'fear', 'happy', 'neutral', 'sad', 'surprise']
 
@@ -25,7 +25,7 @@ for category in categories:
         emotionImg = cv2.imread(imgpath,0)
         
         try:
-            emotionImg = cv2.resize(emotionImg, (48,48))
+            # emotionImg = cv2.resize(emotionImg, (48,48))
             image = np.array(emotionImg).flatten()
             
             data.append([image, label])
