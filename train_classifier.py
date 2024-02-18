@@ -34,7 +34,7 @@ for feature, label in data:
 print('All Data Features and Labels Extracted Successfully')
 
 print('Start Splitting Data into 70% Training, and 30% Testing')
-xtrain, xtest, ytrain, ytest = train_test_split(features, labels, test_size = 0.3)
+xtrain, xtest, ytrain, ytest = train_test_split(features, labels, test_size = 0.3, stratify=labels)
 print('Obtained xtrain, xtest, ytrain, and ytest')
 
 print('Imputing NaN values with mean')
