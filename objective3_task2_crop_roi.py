@@ -20,15 +20,19 @@ def process_image(image_path, base_output_folder, emotion, target_size=(200, 200
         # Extract base name without the extension
         base_name = os.path.splitext(os.path.basename(image_path))[0]
         
-        # Construct directories for each ROI within the specific emotion and image name
+        # Construct directories for each ROI and the whole image within the specific emotion and image name
         image_output_folder = os.path.join(base_output_folder, emotion, base_name)
+        whole_image_dir = os.path.join(image_output_folder, "whole_image")  # Directory for whole images
         eyebrows_dir = os.path.join(image_output_folder, "roi_eyebrows")
         eyes_dir = os.path.join(image_output_folder, "roi_eyes")
         mouth_dir = os.path.join(image_output_folder, "roi_mouth")
         
         # Create directories if they don't exist
-        for directory in [eyebrows_dir, eyes_dir, mouth_dir]:
+        for directory in [whole_image_dir, eyebrows_dir, eyes_dir, mouth_dir]:
             os.makedirs(directory, exist_ok=True)
+        
+        # Save the whole image
+        cv2.imwrite(os.path.join(whole_image_dir, f"{base_name}_whole_image.jpg"), image)  # Save the original resized image
         
         # Function to crop ROI, display, and save
         def crop_display_save(roi, dir_path, roi_name):
@@ -47,7 +51,7 @@ def process_image(image_path, base_output_folder, emotion, target_size=(200, 200
 
 # Example usage
 input_folder = "D:\\Side_Projects\\emotion_classification\\datasets\\01_occluded"
-output_folder = "D:\\Side_Projects\\emotion_classification\\datasets\\task8_results"
+output_folder = "D:\\Side_Projects\\emotion_classification\\datasets\\obj3_task2_results"
 os.makedirs(output_folder, exist_ok=True)
 
 for emotion_folder in os.listdir(input_folder):
