@@ -31,7 +31,7 @@ for feature, label in data:
 print('All Data Features and Labels Extracted Successfully')
     
 print('Splitting data')
-xtrain, xtest, ytrain, ytest = train_test_split(features, labels, test_size = 0.3)
+xtrain, xtest, ytrain, ytest = train_test_split(features, labels, test_size = 0.3, stratify=labels)
 print('Data split successfully')
 
 print('Loading Model')
