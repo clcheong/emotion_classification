@@ -11,11 +11,11 @@ from sklearn.impute import SimpleImputer
 
 
 # !!! STEP 3: Test Trained Model (.sav file) - This will take 10-15 minutes
-print('Reading data1.pickle')
-pick_in = open('data1.pickle', 'rb')
+print('Reading data2.pickle')
+pick_in = open('data2.pickle', 'rb')
 data = pickle.load(pick_in)
 pick_in.close()
-print('Read data1.pickle successfully')
+print('Read data2.pickle successfully')
 
 print('Shuffling data')
 random.shuffle(data)
@@ -33,7 +33,7 @@ for feature, label in data:
 print('All Data Features and Labels Extracted Successfully')
     
 print('Splitting data')
-xtrain, xtest, ytrain, ytest = train_test_split(features, labels, test_size = 0.3)
+xtrain, xtest, ytrain, ytest = train_test_split(features, labels, test_size = 0.3, stratify=labels)
 print('Data split successfully')
 
 # print('Imputing NaN values with mean')
